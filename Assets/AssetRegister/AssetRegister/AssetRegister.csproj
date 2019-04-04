@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{A2B8E689-04FA-455C-BF85-31A4A3727ED8}</ProjectGuid>
+    <ProjectGuid>{8E16AFB0-44B5-4BF2-B32F-CAF812F9F144}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>P2POps</RootNamespace>
-    <AssemblyName>P2POps</AssemblyName>
+    <RootNamespace>AssetRegister</RootNamespace>
+    <AssemblyName>AssetRegister</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -31,9 +31,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=12.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\..\..\HelloWorld\packages\Newtonsoft.Json.12.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -42,17 +39,34 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="websocket-sharp, Version=1.0.1.0, Culture=neutral, PublicKeyToken=5660b08a1845a91e, processorArchitecture=MSIL">
-      <HintPath>..\..\..\HelloWorld\packages\WebSocketSharp-netstandard.1.0.1\lib\net45\websocket-sharp.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="P2PClient.cs" />
-    <Compile Include="P2PServer.cs" />
+    <Compile Include="AlphaNumeric.cs" />
+    <Compile Include="Attributes\AssetType\AssetTypeObject.cs" />
+    <Compile Include="Attributes\AssetType\IAssetType.cs" />
+    <Compile Include="Attributes\AssetTag\NormalAssetTag.cs" />
+    <Compile Include="Attributes\Discipline\DisciplineObject.cs" />
+    <Compile Include="Attributes\Event\EventLog.cs" />
+    <Compile Include="Attributes\MakeModel.cs" />
+    <Compile Include="Attributes\AssetTag\DuplicatedAssetTag.cs" />
+    <Compile Include="Attributes\AssetTag\IAssetTag.cs" />
+    <Compile Include="Attributes\OtherAttributes.cs" />
+    <Compile Include="Attributes\PhysicalTags\IPhysicalTag.cs" />
+    <Compile Include="Attributes\Warranty.cs" />
+    <Compile Include="Attributes\Weight.cs" />
+    <Compile Include="IAssetCategory.cs" />
+    <Compile Include="Attributes\Location\IAssetLocation.cs" />
+    <Compile Include="Attributes\Discipline\IDiscipline.cs" />
+    <Compile Include="Objects\Manufacturer.cs" />
+    <Compile Include="Objects\Model.cs" />
+    <Compile Include="Objects\Country.cs" />
+    <Compile Include="Objects\Address.cs" />
+    <Compile Include="Asset.cs" />
+    <Compile Include="AssetCollection.cs" />
+    <Compile Include="Class2.cs" />
+    <Compile Include="Attributes\PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
+    <Compile Include="Attributes\Supplier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

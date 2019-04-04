@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using AssetBlockchain;
 using Newtonsoft.Json;
 using WebSocketSharp;
 using WebSocketSharp.Server;
 
-namespace P2POps
+namespace HelloBlockchain
 {
 	public class P2PServer : WebSocketBehavior
 	{
@@ -14,10 +13,10 @@ namespace P2POps
 
 		public void Start()
 		{
-			wss = new WebSocketServer($"ws://127.0.0.1:{PublicProgram.Port}");
+			wss = new WebSocketServer($"ws://127.0.0.1:{Program.Port}");
 			wss.AddWebSocketService<P2PServer>("/Blockchain");
 			wss.Start();
-			Console.WriteLine($"Started server at ws://127.0.0.1:{PublicProgram.Port}");
+			Console.WriteLine($"Started server at ws://127.0.0.1:{Program.Port}");
 		}
 
 		protected override void OnMessage(MessageEventArgs e)
@@ -31,19 +30,19 @@ namespace P2POps
 			{
 				Blockchain newChain = JsonConvert.DeserializeObject<Blockchain>(e.Data);
 
-				if (newChain.IsValid() && newChain.Chain.Count > PublicProgram.HandoverManuals.Chain.Count)
+				if (newChain.IsValid() && newChain.Chain.Count > Program.HandoverManuals.Chain.Count)
 				{
 					List<Transaction> newTransactions = new List<Transaction>();
 					newTransactions.AddRange(newChain.PendingTransactions);
-					newTransactions.AddRange(PublicProgram.HandoverManuals.PendingTransactions);
+					newTransactions.AddRange(Program.HandoverManuals.PendingTransactions);
 
 					newChain.PendingTransactions = newTransactions;
-					PublicProgram.HandoverManuals = newChain;
+					Program.HandoverManuals = newChain;
 				}
 
 				if (!chainSynched)
 				{
-					Send(JsonConvert.SerializeObject(PublicProgram.HandoverManuals));
+					Send(JsonConvert.SerializeObject(Program.HandoverManuals));
 					chainSynched = true;
 				}
 			}

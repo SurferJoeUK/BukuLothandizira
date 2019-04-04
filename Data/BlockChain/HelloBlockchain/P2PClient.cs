@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-//using AssetBlockchain;
-//using HelloBlockchain;
 using Newtonsoft.Json;
 using WebSocketSharp;
 
-namespace P2POps
+
+namespace HelloBlockchain
 {
 public class P2PClient
 	{
@@ -29,22 +25,22 @@ public class P2PClient
 					{
 						Blockchain newChain = JsonConvert.DeserializeObject<Blockchain>(e.Data);
 
-						if (newChain.IsValid() && newChain.Chain.Count > BlockChainLibrarian.PublicProgram.HandoverManuals.Chain.Count)
+						if (newChain.IsValid() && newChain.Chain.Count > Program.HandoverManuals.Chain.Count)
 						{
 							List<Transaction> newTransactions = new List<Transaction>();
 
 							newTransactions.AddRange(newChain.PendingTransactions);
-							newTransactions.AddRange(PublicProgram.HandoverManuals.PendingTransactions);
+							newTransactions.AddRange(Program.HandoverManuals.PendingTransactions);
 
 							newChain.PendingTransactions = newTransactions;
-							PublicProgram.HandoverManuals = newChain;
+							Program.HandoverManuals = newChain;
 						}
 					}
 				};
 
 				ws.Connect();
 				ws.Send("Hi Server");
-				ws.Send(JsonConvert.SerializeObject(PublicProgram.HandoverManuals));
+				ws.Send(JsonConvert.SerializeObject(Program.HandoverManuals));
 
 				_wsDict.Add(url, ws);
 			}
