@@ -47,6 +47,8 @@
     <Compile Include="Attributes\AssetTag\NormalAssetTag.cs" />
     <Compile Include="Attributes\Discipline\DisciplineObject.cs" />
     <Compile Include="Attributes\Event\EventLog.cs" />
+    <Compile Include="Attributes\Event\EventObject.cs" />
+    <Compile Include="Attributes\Event\IEvent.cs" />
     <Compile Include="Attributes\MakeModel.cs" />
     <Compile Include="Attributes\AssetTag\DuplicatedAssetTag.cs" />
     <Compile Include="Attributes\AssetTag\IAssetTag.cs" />
@@ -54,6 +56,7 @@
     <Compile Include="Attributes\PhysicalTags\IPhysicalTag.cs" />
     <Compile Include="Attributes\Warranty.cs" />
     <Compile Include="Attributes\Weight.cs" />
+    <Compile Include="Helpers\ExcelDateHelper.cs" />
     <Compile Include="IAssetCategory.cs" />
     <Compile Include="Attributes\Location\IAssetLocation.cs" />
     <Compile Include="Attributes\Discipline\IDiscipline.cs" />

@@ -10,6 +10,7 @@ namespace AssetRegister.Attributes
 	public interface IWarranty
 	{	
 		void AddDetails(object obj);
+		//void AddWarrantyDetail(string value, string colTitle);
 	}
 
 	public class WarrantyBasic : IWarranty

@@ -24,7 +24,7 @@ namespace AssetRegister
 		}
 		public AssetCollection(DataTable dt)
 		{
-			AssetCollection atc = new AssetCollection();
+			//AssetCollection atc = new AssetCollection();
 
 			var enumerableData = dt.AsEnumerable();			
 
@@ -73,7 +73,7 @@ namespace AssetRegister
 							{
 								registerAssetTypes = enumerableData.Select(dr => dr.Field<string>(colTitle)).GroupBy(x => x).Select(g => g.Key)
 									.ToList();
-								atc.AssetTypes = registerAssetTypes;
+								this.AssetTypes = registerAssetTypes;
 							}
 
 							asset.AssetType = new AssetTypeObject(row[colTitle].ToString());
@@ -92,7 +92,7 @@ namespace AssetRegister
 								registerDisciplines = enumerableData.Select(dr => dr.Field<string>(colTitle)).GroupBy(x => x).Select(g => g.Key)
 									.ToList();
 
-								atc.AssetDisciplines = registerDisciplines;
+								this.AssetDisciplines = registerDisciplines;
 							}
 
 							asset.Discipline = new DisciplineObject(row[colTitle].ToString());
@@ -142,6 +142,7 @@ namespace AssetRegister
 							string value = row[colTitle].ToString();
 							if (!string.IsNullOrWhiteSpace(value))
 							{
+								asset.InitialisePhysicalTags();
 								asset.PhysicalTags.Add(new BarcodeObject(value));
 							}
 
@@ -185,9 +186,9 @@ namespace AssetRegister
 							string value = row[colTitle].ToString();
 							if (!string.IsNullOrWhiteSpace(value))
 							{
-								asset.EventLog.Add(new EventObject(Convert.ToDateTime(value), colTitle));
+							
+								asset.AddToEventLog(value, colTitle);
 							}
-
 							break;
 						}
 						case "Warranty Start Date":
@@ -196,8 +197,7 @@ namespace AssetRegister
 							string value = row[colTitle].ToString();
 							if (!string.IsNullOrWhiteSpace(value))
 							{
-								asset.EventLog.Add(new EventObject(Convert.ToDateTime(row[colTitle]), colTitle));
-								asset.Warranty.AddDetails(new KeyValuePair<string, string>(colTitle, value));
+								asset.AddToEventLog(value, colTitle, true);								
 							}
 
 							break;
@@ -208,8 +208,8 @@ namespace AssetRegister
 							if (!string.IsNullOrWhiteSpace(value))
 							{
 								asset.Weight = new WeightString(value);
-								}
-						
+							}
+
 
 							break;
 						}
@@ -219,15 +219,7 @@ namespace AssetRegister
 							string value = row[colTitle].ToString();
 							if (!string.IsNullOrWhiteSpace(value))
 							{
-								if (asset.Warranty == null)
-								{
-									asset.Warranty = new WarrantyBasic();
-								}
-
-								if (asset.Warranty.GetType() == typeof(WarrantyBasic))
-								{
-									asset.Warranty.AddDetails(new KeyValuePair<string, string>(colTitle, value));
-								}
+								asset.AddWarrantyDetail(value, colTitle);
 							}
 
 							break;
@@ -237,7 +229,7 @@ namespace AssetRegister
 							var value = row[colTitle].ToString();
 							if (!string.IsNullOrWhiteSpace(value))
 							{
-								asset.OtherAttributes.Add(new OtherAttribute(colTitle, row[colTitle].ToString()));
+								asset.AddOtherAttribute(colTitle, value, row);
 							}
 
 							break;
@@ -245,12 +237,11 @@ namespace AssetRegister
 					}
 				}
 
-				atc.Add(asset);
+				this.Add(asset);
 
 			}
 
-
-
+		
 		}
 
 		
