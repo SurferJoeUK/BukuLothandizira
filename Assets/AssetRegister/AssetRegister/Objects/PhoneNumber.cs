@@ -1,4 +1,4 @@
-﻿namespace AssetRegister
+﻿namespace AssetRegister.Objects
 {
 	public class PhoneNumber
 	{

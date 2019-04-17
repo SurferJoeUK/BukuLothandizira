@@ -2,6 +2,14 @@
 
 namespace AssetRegister.Helpers
 {
+	public static class DateHelper
+	{
+		// Changes the date so that it is 1 milisecond before the next day
+		public static DateTime UntilEndOfDay(this DateTime untilDate)
+		{
+			return untilDate.AddDays(1).AddMilliseconds(-1);
+		}
+	}
 	public static class ExcelDateHelper
 	{
 		public static DateTime GetDate(string value)

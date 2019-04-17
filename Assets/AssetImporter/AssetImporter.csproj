@@ -8,10 +8,11 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>AssetImporter</RootNamespace>
     <AssemblyName>AssetImporter</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -80,7 +81,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AssetRegister\AssetRegister\AssetRegister.csproj">
-      <Project>{8E16AFB0-44B5-4BF2-B32F-CAF812F9F144}</Project>
+      <Project>{8e16afb0-44b5-4bf2-b32f-caf812f9f144}</Project>
       <Name>AssetRegister</Name>
     </ProjectReference>
   </ItemGroup>

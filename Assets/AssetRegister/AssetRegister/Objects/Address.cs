@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace AssetRegister
+namespace AssetRegister.Objects
 {
 	public class Address
 	{

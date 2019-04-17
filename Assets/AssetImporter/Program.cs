@@ -8,7 +8,10 @@ using System.Runtime.InteropServices;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Serialization;
 using AssetRegister;
+
 
 namespace AssetImporter
 {
@@ -27,20 +30,33 @@ namespace AssetImporter
 	{
 		static void Main(string[] args)
 		{
-			List<Tuple<string, int>> files = new List<Tuple<string, int>>();
-			files.Add(new Tuple<string, int>(
-				@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-RMH O&M-2017-07-06-00-27-01-551\RHM Asset List.xlsx",
-				2));
+			List<Tuple<string, int>> files = new List<Tuple<string,int>>();
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-RMH O&M-2017-07-06-00-27-01-551\RHM Asset List.xlsx", 2));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Asset List - 100 Waymouth Signarama.xlsx", 1));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Asset List 100 Waymouth Street Adelaide.xlsx", 1));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Asset List -Tiles.xls", 1));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Asset List -Titan Interiors.xls", 1));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Asset List- Waymouth St. from Estilo.xls",	1));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Asset List-HN.xls",	1));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Contract Carpets - Asset Register.xlsx",2));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Copy of Asset List 2-METRO JOINERY (2).xls",2));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Koreana Tiles - Asset List.xls", 1));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Otis Lifts - Asset List - GB.xls", 2));
+			//files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\RIS Roof Safe - Asset List.xls", 1));
+			//	files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\SA Commercial Blinds_Asset List_100 Waymouth_Nov 2012.xls", 1));
+			files.Add(new Tuple<string, int>(@"C:\OraDocDrive\Oracle Content\Cabinet\HelperFiles\Handover2\Customer examples\Asset lists examples\AU1\Aconex Handover-100 Waymouth Street-2017-07-06-00-23-36-226\Tyrone Electrical - Asset List.xls", 1));
 
 
 			DataTable dt = null;
 
 			foreach (var file in files)
 			{
+				Console.WriteLine("Loading file " + file.Item1);
 				string filetype = file.Item1.Substring(file.Item1.LastIndexOf(".", StringComparison.CurrentCulture) + 1);
 
 				switch (filetype)
 				{
+					case "xls":
 					case "xlsx":
 					{
 						dt = ImportFromExcel(file.Item1, file.Item2);
@@ -48,22 +64,28 @@ namespace AssetImporter
 					}
 				}
 
-			}
 
-			if (dt != null)
-			{
-				object ar = CreateAssetRegister(dt);
+				if (dt != null)
+				{
+					AssetCollection ar = CreateAssetRegister(dt);
+
+
+					var xmlSerializer = new XmlSerializer(ar.GetType());
+					var stringBuilder = new StringBuilder();
+					var xmlTextWriter = XmlWriter.Create(stringBuilder, new XmlWriterSettings {NewLineChars = "\r\n", Indent = true});
+					xmlSerializer.Serialize(xmlTextWriter, ar);
+					var finalXml = stringBuilder.ToString();
+					Console.WriteLine("Creating xml");
+					File.WriteAllText(file.Item1 + ".xml", finalXml);
+					Console.WriteLine("Xml Created");
+					dt = null;
+				}
 			}
 		}
 
-		private static object CreateAssetRegister(DataTable dt)
+		private static AssetCollection CreateAssetRegister(DataTable dt)
 		{
-
-			AssetCollection ac = new AssetCollection(dt);
-
-
-
-			return ac;
+			return new AssetCollection(dt);
 		}
 
 		private static DataTable ImportFromExcel(string filepath, int headerRow)
@@ -111,7 +133,7 @@ namespace AssetImporter
 
 			}
 
-
+			Console.WriteLine("Loaded " + rowCount + " rows.");
 
 
 

@@ -9,9 +9,10 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AssetRegister</RootNamespace>
     <AssemblyName>AssetRegister</AssemblyName>
-    <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -33,6 +34,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -42,24 +44,37 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AlphaNumeric.cs" />
-    <Compile Include="Attributes\AssetType\AssetTypeObject.cs" />
-    <Compile Include="Attributes\AssetType\IAssetType.cs" />
+    <Compile Include="AssetCollectionExtensionMethods.cs" />
+    <Compile Include="Attributes\AssetCategory\AssetCategoryObject.cs" />
+    <Compile Include="Attributes\AssetCategory\IAssetCategory.cs" />
     <Compile Include="Attributes\AssetTag\NormalAssetTag.cs" />
     <Compile Include="Attributes\Discipline\DisciplineObject.cs" />
+    <Compile Include="Attributes\Event\DateSpanEvent.cs" />
     <Compile Include="Attributes\Event\EventLog.cs" />
     <Compile Include="Attributes\Event\EventObject.cs" />
     <Compile Include="Attributes\Event\IEvent.cs" />
-    <Compile Include="Attributes\MakeModel.cs" />
+    <Compile Include="Attributes\Event\ProjectedEvent.cs" />
+    <Compile Include="Attributes\Event\ReoccurringEvent.cs" />
+    <Compile Include="Attributes\Event\UnconvertibleDateEvent.cs" />
+    <Compile Include="Attributes\Location\BuildingLevelRoom.cs" />
+    <Compile Include="Attributes\Location\SimpleLocation.cs" />
+    <Compile Include="Attributes\MakeModel\MakeModel.cs" />
     <Compile Include="Attributes\AssetTag\DuplicatedAssetTag.cs" />
     <Compile Include="Attributes\AssetTag\IAssetTag.cs" />
-    <Compile Include="Attributes\OtherAttributes.cs" />
+    <Compile Include="Attributes\Other\OtherAttributes.cs" />
+    <Compile Include="Attributes\PhysicalTags\PhysicalTagObject.cs" />
     <Compile Include="Attributes\PhysicalTags\IPhysicalTag.cs" />
-    <Compile Include="Attributes\Warranty.cs" />
-    <Compile Include="Attributes\Weight.cs" />
+    <Compile Include="Attributes\Warranty\Warranty.cs" />
+    <Compile Include="Attributes\Warranty\WarrantyBasic.cs" />
+    <Compile Include="Helpers\WarrantyHelper.cs" />
+    <Compile Include="Attributes\Warranty\WarrantyWithType.cs" />
+    <Compile Include="Attributes\Weight\Weight.cs" />
+    <Compile Include="Helpers\Constants.cs" />
+    <Compile Include="Helpers\DataHelper.cs" />
     <Compile Include="Helpers\ExcelDateHelper.cs" />
-    <Compile Include="IAssetCategory.cs" />
     <Compile Include="Attributes\Location\IAssetLocation.cs" />
     <Compile Include="Attributes\Discipline\IDiscipline.cs" />
+    <Compile Include="Helpers\StringHelper.cs" />
     <Compile Include="Objects\Manufacturer.cs" />
     <Compile Include="Objects\Model.cs" />
     <Compile Include="Objects\Country.cs" />
@@ -67,9 +82,10 @@
     <Compile Include="Asset.cs" />
     <Compile Include="AssetCollection.cs" />
     <Compile Include="Class2.cs" />
-    <Compile Include="Attributes\PhoneNumber.cs" />
+    <Compile Include="Objects\NotDateTime.cs" />
+    <Compile Include="Objects\PhoneNumber.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Attributes\Supplier.cs" />
+    <Compile Include="Attributes\Supplier\Supplier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
